@@ -12,25 +12,6 @@ import { useSession, signOut } from "next-auth/react";
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { data: session } = useSession();
-  console.log(session);
-
-  // Conditional navigation links
-  const navigation = [
-    { title: "Home", href: "/" },
-    { title: "Books", href: "/books" },
-    { title: "About", href: "/about" },
-    ...(session
-      ? [
-          { title: "Dashboard", href: "/dashboard" },
-          {
-            title: "Sign Out",
-            href: "#",
-            onClick: () => signOut(),
-            isButton: true,
-          },
-        ]
-      : [{ title: "Login", href: "/login" }]),
-  ];
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -49,20 +30,35 @@ const Header = () => {
         {/* Center: Navigation (Hidden on small screens) */}
         <nav className="hidden lg:flex lg:inset-0 lg:justify-center lg:items-center">
           <div className="flex items-center gap-x-5 font-semibold text-lg">
-            {navigation.map((item) =>
-              item.isButton ? (
-                <button
-                  key={item.title}
-                  onClick={item.onClick}
-                  className="border border-black rounded-lg bg-red-400 px-5 py-1"
-                >
-                  {item.title}
-                </button>
-              ) : (
-                <Link key={item.title} href={item.href}>
-                  {item.title}
+            {/* Hardcoded Navigation Links */}
+            <Link href="/" className="text-lg">
+              Home
+            </Link>
+            <Link href="/books" className="text-lg">
+              Books
+            </Link>
+            <Link href="/about" className="text-lg">
+              About
+            </Link>
+            {session ? (
+              <>
+                <Link href="/dashboard" className="text-lg">
+                  Dashboard
                 </Link>
-              )
+                <button
+                  onClick={() => signOut()}
+                  className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                >
+                  LogOut
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+              >
+                Login
+              </Link>
             )}
           </div>
         </nav>
@@ -94,20 +90,39 @@ const Header = () => {
 
           {/* Drawer Navigation */}
           <nav className="flex flex-col gap-y-4 p-5 font-semibold text-lg lg:text-[16px]">
-            {navigation.map((item) =>
-              item.isButton ? (
-                <button
-                  key={item.title}
-                  onClick={item.onClick}
-                  className="border border-black rounded-lg bg-red-400 px-5 py-1"
-                >
-                  {item.title}
-                </button>
-              ) : (
-                <Link key={item.title} href={item.href} onClick={toggleDrawer}>
-                  {item.title}
+            {/* Hardcoded Drawer Links */}
+            <Link href="/" onClick={toggleDrawer}>
+              Home
+            </Link>
+            <Link href="/books" onClick={toggleDrawer}>
+              Books
+            </Link>
+            <Link href="/about" onClick={toggleDrawer}>
+              About
+            </Link>
+            {session ? (
+              <>
+                <Link href="/dashboard" onClick={toggleDrawer}>
+                  Dashboard
                 </Link>
-              )
+                <button
+                  onClick={() => {
+                    toggleDrawer(); // Close the drawer
+                    signOut();
+                  }}
+                  className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                >
+                  LogOut
+                </button>
+              </>
+            ) : (
+              <Link
+                href="/login"
+                onClick={toggleDrawer}
+                className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+              >
+                Login
+              </Link>
             )}
           </nav>
         </div>

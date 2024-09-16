@@ -9,7 +9,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
@@ -45,23 +44,29 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <h1 className="text-2xl font-semibold">Login</h1>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-6 max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
+      >
+        <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+          Login
+        </h1>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-[16px] font-medium text-gray-700 dark:text-gray-300">
+                Email
+              </FormLabel>
               <FormControl>
                 <Input
                   placeholder="johndoe@whatever.com"
                   {...field}
-                  type="email"
+                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
                   required
                 />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -70,27 +75,41 @@ const LoginForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel className="text-[16px] font-medium text-gray-700 dark:text-gray-300">
+                Password
+              </FormLabel>
               <FormControl>
-                <Input type="password" {...field} required />
+                <Input
+                  type="password"
+                  {...field}
+                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
+                  required
+                  placeholder="Password"
+                  minLength={6}
+                />
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
-        <Link className="block" href={"/register"}>
-          Do not have an account?
-        </Link>
-        <Button type="submit">Submit</Button>
+        <p className="block text-center text-[16px] font-medium">
+          Do not have an account ? <Link href={"/register"}>Sign Up</Link>
+        </p>
 
-        <div className="flex space-x-5">
+        <Button
+          type="submit"
+          className="w-full text-[16px] py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-colors duration-300"
+        >
+          Submit
+        </Button>
+
+        <div className="flex justify-center items-center gap-x-5">
           <button
             onClick={() =>
               signIn("google", {
                 callbackUrl: "http://localhost:3000/dashboard",
               })
             }
-            className="border border-black rounded-lg px-5 py-1"
+            className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
           >
             Sign in with Google
           </button>
@@ -100,7 +119,7 @@ const LoginForm = () => {
                 callbackUrl: "http://localhost:3000/dashboard",
               })
             }
-            className="border border-black rounded-lg bg-green-500 px-5 py-1"
+            className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
           >
             Sign in with GitHub
           </button>
