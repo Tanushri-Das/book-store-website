@@ -35,10 +35,10 @@ const BookCard = ({ book }: { book: TBook }) => {
         </CardDescription>
       </CardContent>
       <CardFooter className="flex justify-between items-center px-4">
-        <h5 className="text-[20px] text-primary font-semibold">
+        <h5 className="text-lg text-primary font-semibold">
           Price : ${book.price}
         </h5>
-        <Button className="add-to-cart bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px] sm:text-lg">
+        <Button className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]">
           Add to Cart
         </Button>
       </CardFooter>

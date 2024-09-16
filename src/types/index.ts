@@ -15,3 +15,16 @@ export type Categories = Record<
   "Classic Literature",
   TBook[]
 >;
+
+export interface RegisterFormValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+export type UserProps = {
+  user?: {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+  };
+};

@@ -7,16 +7,29 @@ import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaXmark } from "react-icons/fa6";
 import logo from "@/assets/logo.png";
+import { useSession, signOut } from "next-auth/react";
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { data: session } = useSession();
+  console.log(session);
 
+  // Conditional navigation links
   const navigation = [
     { title: "Home", href: "/" },
     { title: "Books", href: "/books" },
     { title: "About", href: "/about" },
-    { title: "Login", href: "/login" },
-    { title: "My Cart", href: "/my-cart" },
+    ...(session
+      ? [
+          { title: "Dashboard", href: "/dashboard" },
+          {
+            title: "Sign Out",
+            href: "#",
+            onClick: () => signOut(),
+            isButton: true,
+          },
+        ]
+      : [{ title: "Login", href: "/login" }]),
   ];
 
   const toggleDrawer = () => {
@@ -36,11 +49,21 @@ const Header = () => {
         {/* Center: Navigation (Hidden on small screens) */}
         <nav className="hidden lg:flex lg:inset-0 lg:justify-center lg:items-center">
           <div className="flex items-center gap-x-5 font-semibold text-lg">
-            {navigation?.map((item) => (
-              <Link key={item?.title} href={item?.href}>
-                {item?.title}
-              </Link>
-            ))}
+            {navigation.map((item) =>
+              item.isButton ? (
+                <button
+                  key={item.title}
+                  onClick={item.onClick}
+                  className="border border-black rounded-lg bg-red-400 px-5 py-1"
+                >
+                  {item.title}
+                </button>
+              ) : (
+                <Link key={item.title} href={item.href}>
+                  {item.title}
+                </Link>
+              )
+            )}
           </div>
         </nav>
 
@@ -52,7 +75,7 @@ const Header = () => {
         {/* Right: Menu Icon (Visible only on small to medium screens) */}
         <div className="lg:hidden">
           <button onClick={toggleDrawer}>
-            <FiMenu className="text-2xl" /> {/* Menu icon stays the same */}
+            <FiMenu className="text-2xl" />
           </button>
         </div>
 
@@ -71,11 +94,21 @@ const Header = () => {
 
           {/* Drawer Navigation */}
           <nav className="flex flex-col gap-y-4 p-5 font-semibold text-lg lg:text-[16px]">
-            {navigation.map((item) => (
-              <Link key={item?.title} href={item?.href} onClick={toggleDrawer}>
-                {item?.title}
-              </Link>
-            ))}
+            {navigation.map((item) =>
+              item.isButton ? (
+                <button
+                  key={item.title}
+                  onClick={item.onClick}
+                  className="border border-black rounded-lg bg-red-400 px-5 py-1"
+                >
+                  {item.title}
+                </button>
+              ) : (
+                <Link key={item.title} href={item.href} onClick={toggleDrawer}>
+                  {item.title}
+                </Link>
+              )
+            )}
           </nav>
         </div>
 
