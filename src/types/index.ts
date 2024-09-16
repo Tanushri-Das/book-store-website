@@ -28,3 +28,23 @@ export type UserProps = {
     email?: string | null | undefined;
   };
 };
+export interface NewBooking {
+  email: string;
+  name: string;
+  address: string;
+  phone: string;
+  date: string;
+  bookName: string;
+  writerName: string;
+  bookID: string;
+  price: number;
+}
+export type Booking = {
+  _id: string;
+  bookName: string;
+  writerName: string;
+  price: number;
+  address: string;
+  phone: string;
+  date: string;
+};
