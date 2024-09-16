@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 import { ThemeToggler } from "@/components/ThemeToggler";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaXmark } from "react-icons/fa6";
 import logo from "@/assets/logo.png";

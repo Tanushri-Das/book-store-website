@@ -1,15 +1,14 @@
-import BookCard from "@/components/cards/BookCard";
 import Container from "@/components/Container";
 import { getBooks } from "@/services/getBooks";
-import { TBook } from "@/types";
-import React from "react";
+import BooksTab from "@/components/tabs/BooksTab";
 
-const BooksPage = async () => {
+const Books = async () => {
   const books = await getBooks();
+
   return (
     <div className="text-black dark:text-white">
       <Container>
-        <div className="my-10 w-[90%] mx-auto">
+        <div className="mb-10">
           <h1 className="text-4xl text-center">
             <span className="text-fuchsia-800">Books</span>
           </h1>
@@ -17,15 +16,11 @@ const BooksPage = async () => {
             Lorem ipsum dolor sit amet, consectetur adipisicing elit.
             Recusandae, saepe officia. Quia!
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 my-12 gap-8">
-            {books.map((book: TBook) => (
-              <BookCard key={book._id} book={book} />
-            ))}
-          </div>
         </div>
+        <BooksTab books={books} />
       </Container>
     </div>
   );
 };
 
-export default BooksPage;
+export default Books;
