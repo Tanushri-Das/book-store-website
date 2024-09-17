@@ -3,15 +3,26 @@ import Container from "@/components/Container";
 import { ThemeToggler } from "@/components/ThemeToggler";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiMenu } from "react-icons/fi";
 import { FaXmark } from "react-icons/fa6";
 import logo from "@/assets/logo.png";
 import { useSession, signOut } from "next-auth/react";
+import { FaShoppingCart } from "react-icons/fa";
+import { getCarts } from "@/services/getCarts";
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const { data: session } = useSession();
+
+  useEffect(() => {
+    if (session?.user?.email) {
+      getCarts(session.user.email).then((carts) => {
+        setCartCount(carts.length);
+      });
+    }
+  }, [session]);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -42,8 +53,14 @@ const Header = () => {
             </Link>
             {session ? (
               <>
-                <Link href="/dashboard" className="text-lg">
-                  Dashboard
+                <Link href="/my-bookings" className="relative text-lg">
+                  <FaShoppingCart />
+                  {/* Display cart quantity */}
+                  {cartCount > 0 && (
+                    <span className="absolute top-[-10px] right-[-10px] bg-red-500 text-white rounded-full px-2 py-1 text-xs">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
                 <button
                   onClick={() => signOut()}
