@@ -16,7 +16,7 @@ export const DELETE = async (
     });
 
     return NextResponse.json({
-      message: "Deleted bookings successfully",
+      message: "Deleted wishlist successfully",
       response: res,
     });
   } catch (error) {

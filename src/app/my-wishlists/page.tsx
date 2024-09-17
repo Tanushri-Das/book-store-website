@@ -16,6 +16,7 @@ const WishlistPage = () => {
           const res = await fetch(`/my-wishlists/api/${session.user.email}`);
           console.log("Wishlists", res);
           const data = await res.json();
+          console.log("Wishlistsdata", data?.mywishlists);
           if (Array.isArray(data?.mywishlists)) {
             setWishlists(data.mywishlists);
           }
@@ -26,6 +27,24 @@ const WishlistPage = () => {
     };
     loadData();
   }, [session]);
+
+  const handleDelete = async (id: string) => {
+    try {
+      const res = await fetch(`/my-wishlists/api/wishlist/${id}`, {
+        method: "DELETE",
+      });
+      const result = await res.json();
+      console.log("delete booking", result);
+      if (res.ok) {
+        setWishlists((prev) => prev.filter((booking) => booking._id !== id));
+      } else {
+        console.error("Failed to delete booking:", result.message);
+      }
+    } catch (error) {
+      console.error("Error deleting booking:", error);
+    }
+  };
+
   return (
     <div className="m-6 md:m-12">
       <h1 className="text-white text-3xl font-bold flex justify-center items-center">
@@ -77,9 +96,12 @@ const WishlistPage = () => {
                       <Button className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]">
                         Add to Cart
                       </Button>
-                      <Button className="ms-4">
+                      <button
+                        onClick={() => handleDelete(wishlist._id)}
+                        className="ms-4"
+                      >
                         <FiTrash className="text-xl text-red-500 hover:text-red-700" />
-                      </Button>
+                      </button>
                     </td>
                   </tr>
                 ))

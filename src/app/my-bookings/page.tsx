@@ -56,10 +56,11 @@ const BookingsPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      const res = await fetch(`/api/booking/${id}`, {
+      const res = await fetch(`/my-bookings/api/booking/${id}`, {
         method: "DELETE",
       });
       const result = await res.json();
+      console.log("delete booking", result);
       if (res.ok) {
         setBookings((prev) => prev.filter((booking) => booking._id !== id));
       } else {
