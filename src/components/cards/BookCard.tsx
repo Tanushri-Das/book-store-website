@@ -13,11 +13,13 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import BookingModal from "../shared/BookingModal";
+import { useSession } from "next-auth/react";
 
 const BookCard = ({ book }: { book: TBook }) => {
   const { book_name, writer_name, image, price, _id } = book || {};
   const [showModal, setShowModal] = useState(false);
   const router = useRouter();
+  const { data: session } = useSession();
 
   const handleAddToCart = () => {
     setShowModal(true);
@@ -43,18 +45,26 @@ const BookCard = ({ book }: { book: TBook }) => {
   };
 
   const handleAddToWishlist = async (book: TBook) => {
+    const wishlistData = {
+      ...book, // Spread the book data
+      email: session?.user?.email, // Include the user's email
+    };
+
     const res = await fetch(`/my-wishlists/api/new-wishlist`, {
       method: "POST",
-      body: JSON.stringify(book),
+      body: JSON.stringify(wishlistData),
       headers: {
         "content-type": "application/json",
       },
     });
+
     console.log("my-wishlists", res);
+
     if (res.status === 200) {
       router.push("/my-wishlists");
     }
   };
+
   return (
     <>
       <Card>
