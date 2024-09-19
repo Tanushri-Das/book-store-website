@@ -1,12 +1,28 @@
-import FeaturedBooks from "../Featured/page";
-import { getBooks } from "@/services/getBooks";
+"use client";
 
-const Homepage = async () => {
-  const books = await getBooks();
+import useBooks from "@/hooks/useBook";
+import FeaturedBooks from "../Featured/page";
+
+const Homepage = () => {
+  const { data: booksData, isLoading, isError, isSuccess } = useBooks();
+
+  if (isLoading) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        It is loading...
+      </main>
+    );
+  }
+  if (isError) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        There is an error...
+      </main>
+    );
+  }
+
   return (
-    <div>
-      <FeaturedBooks books={books} />
-    </div>
+    <div>{isSuccess && booksData && <FeaturedBooks books={booksData} />}</div>
   );
 };
 

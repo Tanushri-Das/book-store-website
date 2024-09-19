@@ -13,13 +13,30 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import BookingModal from "../shared/BookingModal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
 const BookCard = ({ book }: { book: TBook }) => {
   const { book_name, writer_name, image, price, _id } = book || {};
   const [showModal, setShowModal] = useState(false);
+  const { data: session } = useSession(); // Access session data
+  const queryClient = useQueryClient();
   const router = useRouter();
-  const { data: session } = useSession();
+
+  // Add to Cart Mutation
+  const mutation = useMutation({
+    mutationFn: (newBooking: NewBooking) => {
+      return axios.post("/my-bookings/api/new-booking", newBooking);
+    },
+    onSuccess: () => {
+      // Invalidate queries with user email
+      queryClient.invalidateQueries({
+        queryKey: ["myBookings", session?.user?.email],
+      });
+      router.push("/my-bookings");
+    },
+  });
 
   const handleAddToCart = () => {
     setShowModal(true);
@@ -30,39 +47,8 @@ const BookCard = ({ book }: { book: TBook }) => {
   };
 
   const handleBookingSubmit = async (newBooking: NewBooking) => {
-    const res = await fetch(`/my-bookings/api/new-booking`, {
-      method: "POST",
-      body: JSON.stringify(newBooking),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
+    mutation.mutate(newBooking);
     handleCloseModal();
-    console.log("my-bookings", res);
-    if (res.status === 200) {
-      router.push("/my-bookings");
-    }
-  };
-
-  const handleAddToWishlist = async (book: TBook) => {
-    const wishlistData = {
-      ...book, // Spread the book data
-      email: session?.user?.email, // Include the user's email
-    };
-
-    const res = await fetch(`/my-wishlists/api/new-wishlist`, {
-      method: "POST",
-      body: JSON.stringify(wishlistData),
-      headers: {
-        "content-type": "application/json",
-      },
-    });
-
-    console.log("my-wishlists", res);
-
-    if (res.status === 200) {
-      router.push("/my-wishlists");
-    }
   };
 
   return (
@@ -92,18 +78,9 @@ const BookCard = ({ book }: { book: TBook }) => {
             Price: ${price}
           </h5>
         </CardContent>
-        <CardFooter className="flex justify-center items-center gap-x-5">
-          <Button
-            onClick={handleAddToCart}
-            className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]"
-          >
+        <CardFooter className="p-4 flex justify-center">
+          <Button variant="outline" onClick={handleAddToCart}>
             Add to Cart
-          </Button>
-          <Button
-            onClick={() => handleAddToWishlist(book)} // Pass the book data here
-            className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]"
-          >
-            Add to Wishlist
           </Button>
         </CardFooter>
       </Card>

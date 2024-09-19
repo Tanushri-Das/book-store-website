@@ -1,9 +1,25 @@
+"use client";
 import Container from "@/components/Container";
-import { getBooks } from "@/services/getBooks";
 import BooksTab from "@/components/tabs/BooksTab";
+import useBooks from "@/hooks/useBook";
 
-const Books = async () => {
-  const books = await getBooks();
+const Books = () => {
+  const { data: booksData, isLoading, isError, isSuccess } = useBooks();
+
+  if (isLoading) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        It is loading...
+      </main>
+    );
+  }
+  if (isError) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        There is an error...
+      </main>
+    );
+  }
 
   return (
     <div className="text-black dark:text-white">
@@ -17,7 +33,7 @@ const Books = async () => {
             Recusandae, saepe officia. Quia!
           </p>
         </div>
-        <BooksTab books={books} />
+        {isSuccess && booksData && <BooksTab books={booksData} />}
       </Container>
     </div>
   );
