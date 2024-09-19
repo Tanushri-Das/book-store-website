@@ -1,18 +1,24 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useWishlist from "@/hooks/useWishlist";
-import { Wishlist } from "@/types";
+import { NewBooking, Wishlist, TBook } from "@/types";
 import { useSession } from "next-auth/react";
-import React from "react";
+import React, { useState } from "react";
 import { FiTrash } from "react-icons/fi";
 import Image from "next/image";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import BookingModal from "@/components/shared/BookingModal";
+import { useRouter } from "next/navigation";
 
 const WishlistPage = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const { data: wishlistData, isLoading, error } = useWishlist();
+  const router = useRouter();
+  // State for the modal and selected book
+  const [showModal, setShowModal] = useState(false);
+  const [selectedBook, setSelectedBook] = useState<TBook | null>(null);
 
   const deleteMutation = useMutation({
     mutationFn: async (wishlistId: string) => {
@@ -37,6 +43,18 @@ const WishlistPage = () => {
     },
   });
 
+  const bookingMutation = useMutation({
+    mutationFn: (newBooking: NewBooking) => {
+      return axios.post("/my-bookings/api/new-booking", newBooking);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myBookings", session?.user?.email],
+      });
+      router.push("/my-bookings");
+    },
+  });
+
   if (isLoading) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
@@ -58,6 +76,41 @@ const WishlistPage = () => {
   const handleDelete = (wishlistId: string) => {
     console.log(`Deleting wishlist with id: ${wishlistId}`);
     deleteMutation.mutate(wishlistId);
+  };
+
+  // const handleAddToCart = (book: Wishlist) => {
+  //   setSelectedBook({
+  //     book_name: book.bookName,
+  //     writer_name: book.writerName,
+  //     price: book.price,
+  //     _id: book._id,
+  //     image: book.bookImage, // Include the image property
+  //   });
+  //   setShowModal(true);
+  // };
+
+  const handleAddToCart = (book: Wishlist) => {
+    setSelectedBook({
+      book_name: book.bookName,
+      writer_name: book.writerName,
+      price: book.price,
+      _id: book._id,
+      image: book.bookImage,
+    });
+    setShowModal(true);
+
+    // Automatically delete from wishlist when adding to cart
+    handleDelete(book._id); // Delete from wishlist without user click
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setSelectedBook(null); // Reset selected book when modal closes
+  };
+
+  const handleBookingSubmit = async (newBooking: NewBooking) => {
+    bookingMutation.mutate(newBooking);
+    handleCloseModal();
   };
 
   return (
@@ -121,7 +174,13 @@ const WishlistPage = () => {
                     {session?.user?.name}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center">
-                    <Button variant="outline">Add to Cart</Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleAddToCart(wishlist)}
+                    >
+                      Add to Cart
+                    </Button>
+
                     <button
                       onClick={() => handleDelete(wishlist._id)}
                       className="ms-4"
@@ -135,6 +194,14 @@ const WishlistPage = () => {
           </table>
         </div>
       </div>
+
+      {showModal && selectedBook && (
+        <BookingModal
+          book={selectedBook}
+          onClose={handleCloseModal}
+          onSubmit={handleBookingSubmit}
+        />
+      )}
     </div>
   );
 };

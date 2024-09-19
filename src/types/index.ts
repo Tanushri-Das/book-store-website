@@ -3,7 +3,7 @@ export type TBook = {
   book_name: string;
   price: number;
   writer_name: string;
-  category: string;
+  category?: string;
   image: string;
 };
 export type Categories = Record<
@@ -36,6 +36,7 @@ export interface NewBooking {
   date: string;
   bookName: string;
   writerName: string;
+  bookImage: string;
   bookID: string;
   price: number;
 }
@@ -47,6 +48,7 @@ export type Booking = {
   address: string;
   phone: string;
   date: string;
+  bookImage: string;
 };
 
 export type NewWishlist = {

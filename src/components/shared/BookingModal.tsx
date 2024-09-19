@@ -11,7 +11,7 @@ interface BookingModalProps {
 
 const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
   const { data: session } = useSession();
-  const { book_name, writer_name, price, _id } = book || {};
+  const { book_name, writer_name, image, price, _id } = book || {};
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,6 +23,7 @@ const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
       date: e.currentTarget.date.value,
       bookName: book_name,
       writerName: writer_name,
+      bookImage: image,
       bookID: _id,
       price: price,
     };
@@ -89,7 +90,10 @@ const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
             >
               Cancel
             </button>
-            <button type="submit" className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]">
+            <button
+              type="submit"
+              className="bg-gradient-to-r from-sky-500 to-indigo-500 text-white px-4 py-2 font-semibold rounded-md text-[16px]"
+            >
               Confirm Booking
             </button>
           </div>

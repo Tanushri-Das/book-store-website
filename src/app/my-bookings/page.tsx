@@ -9,6 +9,7 @@ import { Booking } from "@/types";
 import useCart from "@/hooks/useCart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UpdateModal from "@/components/shared/UpdateModal";
+import Image from "next/image";
 
 const BookingsPage: React.FC = () => {
   const { data: session } = useSession();
@@ -99,6 +100,9 @@ const BookingsPage: React.FC = () => {
                   #
                 </th>
                 <th scope="col" className="px-6 py-3">
+                  Book Image
+                </th>
+                <th scope="col" className="px-6 py-3">
                   Book Name
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -128,6 +132,17 @@ const BookingsPage: React.FC = () => {
               {bookings.map((booking: Booking, index: number) => (
                 <tr key={booking._id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="relative w-[80px] h-[80px]">
+                      <Image
+                        src={booking.bookImage}
+                        layout="fill"
+                        objectFit="cover"
+                        alt={`Image of ${booking.bookName}`}
+                        className="rounded-full"
+                      />
+                    </div>
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {booking.bookName}
                   </td>
