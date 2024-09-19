@@ -1,5 +1,4 @@
-"use client";
-import { NewBooking, TBook } from "@/types";
+import { NewBooking, NewWishlist, TBook } from "@/types";
 import Image from "next/image";
 import {
   Card,
@@ -20,21 +19,33 @@ import axios from "axios";
 const BookCard = ({ book }: { book: TBook }) => {
   const { book_name, writer_name, image, price, _id } = book || {};
   const [showModal, setShowModal] = useState(false);
-  const { data: session } = useSession(); // Access session data
+  const { data: session } = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  // Add to Cart Mutation
-  const mutation = useMutation({
+  // Add to Booking Mutation
+  const bookingMutation = useMutation({
     mutationFn: (newBooking: NewBooking) => {
       return axios.post("/my-bookings/api/new-booking", newBooking);
     },
     onSuccess: () => {
-      // Invalidate queries with user email
       queryClient.invalidateQueries({
         queryKey: ["myBookings", session?.user?.email],
       });
       router.push("/my-bookings");
+    },
+  });
+
+  // Add to Wishlist Mutation
+  const wishlistMutation = useMutation({
+    mutationFn: (newWishlist: NewWishlist) => {
+      return axios.post("/my-wishlists/api/new-wishlist", newWishlist);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myWishlists", session?.user?.email],
+      });
+      router.push("/my-wishlists");
     },
   });
 
@@ -47,8 +58,19 @@ const BookCard = ({ book }: { book: TBook }) => {
   };
 
   const handleBookingSubmit = async (newBooking: NewBooking) => {
-    mutation.mutate(newBooking);
+    bookingMutation.mutate(newBooking);
     handleCloseModal();
+  };
+
+  const handleAddToWishlist = () => {
+    if (session?.user?.email) {
+      const newWishlist: NewWishlist = {
+        ...book,
+        email: session.user.email,
+      };
+
+      wishlistMutation.mutate(newWishlist);
+    }
   };
 
   return (
@@ -78,9 +100,12 @@ const BookCard = ({ book }: { book: TBook }) => {
             Price: ${price}
           </h5>
         </CardContent>
-        <CardFooter className="p-4 flex justify-center">
+        <CardFooter className="p-4 flex justify-center gap-x-5">
           <Button variant="outline" onClick={handleAddToCart}>
             Add to Cart
+          </Button>
+          <Button variant="outline" onClick={handleAddToWishlist}>
+            Add to Wishlist
           </Button>
         </CardFooter>
       </Card>

@@ -49,7 +49,7 @@ export type Booking = {
   date: string;
 };
 
-export type Wishlist = {
+export type NewWishlist = {
   _id: string;
   book_name: string;
   price: number;
@@ -57,4 +57,12 @@ export type Wishlist = {
   category: string;
   image: string;
   email: string;
+};
+export type Wishlist = {
+  _id: string;
+  book_name: string;
+  price: number;
+  writer_name: string;
+  category: string;
+  image: string;
 };
