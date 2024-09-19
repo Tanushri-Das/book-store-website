@@ -65,8 +65,12 @@ const BookCard = ({ book }: { book: TBook }) => {
   const handleAddToWishlist = () => {
     if (session?.user?.email) {
       const newWishlist: NewWishlist = {
-        ...book,
-        email: session.user.email,
+        bookName: book_name,
+        writerName: writer_name,
+        bookImage: image,
+        bookID: _id,
+        price: price,
+        email: session?.user?.email || "",
       };
 
       wishlistMutation.mutate(newWishlist);

@@ -50,19 +50,17 @@ export type Booking = {
 };
 
 export type NewWishlist = {
-  _id: string;
-  book_name: string;
+  bookName: string;
+  writerName: string;
+  bookID: string;
+  bookImage: string;
   price: number;
-  writer_name: string;
-  category: string;
-  image: string;
   email: string;
 };
 export type Wishlist = {
   _id: string;
-  book_name: string;
+  bookName: string;
+  writerName: string;
   price: number;
-  writer_name: string;
-  category: string;
-  image: string;
+  bookImage: string;
 };

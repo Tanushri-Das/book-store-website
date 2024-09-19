@@ -5,13 +5,38 @@ import { Wishlist } from "@/types";
 import { useSession } from "next-auth/react";
 import React from "react";
 import { FiTrash } from "react-icons/fi";
-import Image from "next/image"; // Import the Image component
+import Image from "next/image";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 
 const WishlistPage = () => {
   const { data: session } = useSession();
+  const queryClient = useQueryClient();
   const { data: wishlistData, isLoading, error } = useWishlist();
 
-  // Handle loading state
+  const deleteMutation = useMutation({
+    mutationFn: async (wishlistId: string) => {
+      try {
+        const response = await axios.delete(
+          `/my-wishlists/api/wishlist/${wishlistId}`
+        );
+        return response.data;
+      } catch (error) {
+        console.error("Error deleting wishlist:", error);
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      console.log("Invalidating queries...");
+      queryClient.invalidateQueries({
+        queryKey: ["myWishlists", session?.user?.email ?? ""],
+      });
+    },
+    onError: (error) => {
+      console.error("Error deleting wishlist:", error);
+    },
+  });
+
   if (isLoading) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
@@ -20,7 +45,6 @@ const WishlistPage = () => {
     );
   }
 
-  // Handle error state
   if (error) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
@@ -29,10 +53,12 @@ const WishlistPage = () => {
     );
   }
 
-  // Extract wishlists from wishlistData
   const wishlists = wishlistData?.mywishlists || [];
 
-  console.log("wishlists", wishlists);
+  const handleDelete = (wishlistId: string) => {
+    console.log(`Deleting wishlist with id: ${wishlistId}`);
+    deleteMutation.mutate(wishlistId);
+  };
 
   return (
     <div className="m-6 md:m-12">
@@ -67,27 +93,26 @@ const WishlistPage = () => {
                 </th>
               </tr>
             </thead>
-            <tbody className="">
+            <tbody>
               {wishlists.map((wishlist: Wishlist, index: number) => (
                 <tr key={wishlist._id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
-
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="relative w-[80px] h-[80px]">
                       <Image
-                        src={wishlist.image}
+                        src={wishlist.bookImage}
                         layout="fill"
                         objectFit="cover"
-                        alt={`Image of ${wishlist.book_name}`}
+                        alt={`Image of ${wishlist.bookName}`}
                         className="rounded-full"
                       />
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {wishlist.book_name}
+                    {wishlist.bookName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {wishlist.writer_name}
+                    {wishlist.writerName}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     ${wishlist.price}
@@ -97,7 +122,10 @@ const WishlistPage = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center">
                     <Button variant="outline">Add to Cart</Button>
-                    <button className="ms-4">
+                    <button
+                      onClick={() => handleDelete(wishlist._id)}
+                      className="ms-4"
+                    >
                       <FiTrash className="text-xl text-red-500 hover:text-red-700" />
                     </button>
                   </td>
