@@ -16,7 +16,8 @@ const WishlistPage = () => {
   const queryClient = useQueryClient();
   const { data: wishlistData, isLoading, error } = useWishlist();
   const router = useRouter();
-  // State for the modal and selected book
+
+  // State for modal and selected book
   const [showModal, setShowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState<TBook | null>(null);
 
@@ -33,7 +34,6 @@ const WishlistPage = () => {
       }
     },
     onSuccess: () => {
-      console.log("Invalidating queries...");
       queryClient.invalidateQueries({
         queryKey: ["myWishlists", session?.user?.email ?? ""],
       });
@@ -73,22 +73,7 @@ const WishlistPage = () => {
 
   const wishlists = wishlistData?.mywishlists || [];
 
-  const handleDelete = (wishlistId: string) => {
-    console.log(`Deleting wishlist with id: ${wishlistId}`);
-    deleteMutation.mutate(wishlistId);
-  };
-
-  // const handleAddToCart = (book: Wishlist) => {
-  //   setSelectedBook({
-  //     book_name: book.bookName,
-  //     writer_name: book.writerName,
-  //     price: book.price,
-  //     _id: book._id,
-  //     image: book.bookImage, // Include the image property
-  //   });
-  //   setShowModal(true);
-  // };
-
+  // Handle add to cart (open modal, but do not delete item yet)
   const handleAddToCart = (book: Wishlist) => {
     setSelectedBook({
       book_name: book.bookName,
@@ -98,19 +83,28 @@ const WishlistPage = () => {
       image: book.bookImage,
     });
     setShowModal(true);
-
-    // Automatically delete from wishlist when adding to cart
-    handleDelete(book._id); // Delete from wishlist without user click
   };
 
+  // Close modal without deleting
   const handleCloseModal = () => {
     setShowModal(false);
     setSelectedBook(null); // Reset selected book when modal closes
   };
 
+  // When booking is confirmed, delete from wishlist and close modal
   const handleBookingSubmit = async (newBooking: NewBooking) => {
     bookingMutation.mutate(newBooking);
+
+    // After successful booking, remove the item from wishlist
+    if (selectedBook?._id) {
+      deleteMutation.mutate(selectedBook._id);
+    }
+
     handleCloseModal();
+  };
+
+  const handleDelete = (wishlistId: string) => {
+    deleteMutation.mutate(wishlistId);
   };
 
   return (

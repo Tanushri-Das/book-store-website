@@ -6,15 +6,9 @@ export type TBook = {
   category?: string;
   image: string;
 };
-export type Categories = Record<
-  | "Mystery and Thriller"
-  | "Science Fiction"
-  | "Historical Fiction"
-  | "Self Help"
-  | "Biography"
-  | "Classic Literature",
-  TBook[]
->;
+export interface Categories {
+  [key: string]: TBook[];
+}
 
 export interface RegisterFormValues {
   name: string;
