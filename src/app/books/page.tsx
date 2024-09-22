@@ -278,7 +278,7 @@ const Books = () => {
         <div className="mb-10">
           <h1 className="text-4xl text-center text-fuchsia-800">Books</h1>
         </div>
-        <div className="grid grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-between items-center">
           <SearchBar onSearch={handleSearch} onClear={handleClear} />
           <SearchByPrice onPriceChange={handlePriceChange} />
         </div>

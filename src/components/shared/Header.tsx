@@ -9,7 +9,7 @@ import { FaBell, FaShoppingCart } from "react-icons/fa";
 import { FaXmark } from "react-icons/fa6";
 import logo from "@/assets/logo.png";
 import { useSession, signOut } from "next-auth/react";
-import useCart from "@/hooks/useCart"; // Import the custom hook
+import useCart from "@/hooks/useCart";
 import useWishlist from "@/hooks/useWishlist";
 
 const Header = () => {
@@ -17,14 +17,8 @@ const Header = () => {
   const { data: session } = useSession();
 
   // Use custom hooks and rename variables to avoid conflicts
-  const {
-    data: cartData,
-    isLoading: isCartLoading,
-  } = useCart();
-  const {
-    data: wishlistData,
-    isLoading: isWishlistLoading,
-  } = useWishlist();
+  const { data: cartData, isLoading: isCartLoading } = useCart();
+  const { data: wishlistData, isLoading: isWishlistLoading } = useWishlist();
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -42,7 +36,7 @@ const Header = () => {
 
         {/* Center: Navigation (Hidden on small screens) */}
         <nav className="hidden lg:flex lg:inset-0 lg:justify-center lg:items-center">
-          <div className="flex items-center gap-x-5 font-semibold text-lg">
+          <div className="flex items-center gap-x-8 font-semibold text-lg">
             {/* Hardcoded Navigation Links */}
             <Link href="/" className="text-lg">
               Home
@@ -57,26 +51,27 @@ const Header = () => {
               <>
                 <Link href="/my-bookings" className="text-lg">
                   <button className="btn relative">
-                    <FaShoppingCart className="text-lg" />
+                    <FaShoppingCart className="text-lg mt-2" />
                     {isCartLoading ? (
-                      <p>Loading...</p>
+                      <p className="text-lg">Loading...</p>
                     ) : (
-                      <div className="absolute top-[-2px] right-[15px]">
-                        <p className="text-lg">
+                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                        <p className="text-[16px]">
                           {cartData?.mybookings?.length || 0}
                         </p>
                       </div>
                     )}
                   </button>
                 </Link>
+
                 <Link href="/my-wishlists" className="text-lg">
                   <button className="btn relative">
-                    <FaBell className="text-lg" />
+                    <FaBell className="text-lg mt-2" />
                     {isWishlistLoading ? (
-                      <p>Loading...</p>
+                      <p className="text-lg">Loading...</p>
                     ) : (
-                      <div className="absolute top-[-2px] right-[15px]">
-                        <p className="text-lg">
+                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[9px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                        <p className="text-[16px]">
                           {wishlistData?.mywishlists?.length || 0}
                         </p>
                       </div>
@@ -85,7 +80,7 @@ const Header = () => {
                 </Link>
                 <button
                   onClick={() => signOut()}
-                  className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                  className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 ms-3"
                 >
                   LogOut
                 </button>
@@ -93,7 +88,7 @@ const Header = () => {
             ) : (
               <Link
                 href="/login"
-                className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                className="rounded-md text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
               >
                 Login
               </Link>
@@ -140,15 +135,49 @@ const Header = () => {
             </Link>
             {session ? (
               <>
-                <Link href="/dashboard" onClick={toggleDrawer}>
-                  Dashboard
+                <Link
+                  href="/my-bookings"
+                  className="text-lg"
+                  onClick={toggleDrawer}
+                >
+                  <button className="btn relative">
+                    <FaShoppingCart className="text-lg mt-2" />
+                    {isCartLoading ? (
+                      <p className="text-lg">Loading...</p>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                        <p className="text-[16px]">
+                          {cartData?.mybookings?.length || 0}
+                        </p>
+                      </div>
+                    )}
+                  </button>
+                </Link>
+
+                <Link
+                  href="/my-wishlists"
+                  className="text-lg"
+                  onClick={toggleDrawer}
+                >
+                  <button className="btn relative">
+                    <FaBell className="text-lg mt-2" />
+                    {isWishlistLoading ? (
+                      <p className="text-lg">Loading...</p>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[9px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                        <p className="text-[16px]">
+                          {wishlistData?.mywishlists?.length || 0}
+                        </p>
+                      </div>
+                    )}
+                  </button>
                 </Link>
                 <button
                   onClick={() => {
                     toggleDrawer(); // Close the drawer
                     signOut();
                   }}
-                  className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                  className="rounded-md text-center text-white text-lg bg-fuchsia-800 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium w-28"
                 >
                   LogOut
                 </button>
@@ -157,7 +186,7 @@ const Header = () => {
               <Link
                 href="/login"
                 onClick={toggleDrawer}
-                className="rounded-md text-white text-lg bg-sky-400 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium"
+                className="rounded-md text-center text-white text-lg bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300 px-4 py-[6px] font-medium w-24"
               >
                 Login
               </Link>

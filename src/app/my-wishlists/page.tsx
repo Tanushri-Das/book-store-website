@@ -112,7 +112,7 @@ const WishlistPage = () => {
       <h1 className="text-3xl font-bold flex justify-center items-center">
         My Wishlist
       </h1>
-      <div className="mt-12">
+      <div className="mt-10">
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
           <table className="min-w-full text-left text-sm font-light">
             <thead className="bg-gray-700 text-gray-200">
@@ -143,7 +143,9 @@ const WishlistPage = () => {
             <tbody>
               {wishlists.map((wishlist: Wishlist, index: number) => (
                 <tr key={wishlist._id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
+                    {index + 1}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="relative w-[80px] h-[80px]">
                       <Image
@@ -155,32 +157,34 @@ const WishlistPage = () => {
                       />
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {wishlist.bookName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {wishlist.writerName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     ${wishlist.price}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {session?.user?.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap flex items-center justify-center">
-                    <Button
-                      variant="outline"
-                      onClick={() => handleAddToCart(wishlist)}
-                    >
-                      Add to Cart
-                    </Button>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <Button
+                        variant="outline"
+                        onClick={() => handleAddToCart(wishlist)}
+                      >
+                        Add to Cart
+                      </Button>
 
-                    <button
-                      onClick={() => handleDelete(wishlist._id)}
-                      className="ms-4"
-                    >
-                      <FiTrash className="text-xl text-red-500 hover:text-red-700" />
-                    </button>
+                      <button
+                        onClick={() => handleDelete(wishlist._id)}
+                        className="ms-4"
+                      >
+                        <FiTrash className="text-xl text-red-500 hover:text-red-700" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -24,17 +24,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
     <div className="mb-4">
       <h1 className="text-lg mb-4">Search by Bookname :</h1>
       <div className="flex items-center">
-        {/* Search form */}
         <form onSubmit={handleSearch}>
-          <div className="relative w-[440px]">
-            {/* FaSearch icon */}
-            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <div className="relative w-[250px] sm:w-[440px] lg:w-[390px] xl:w-[440px]">
+            <FaSearch className="absolute left-[6px] md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
 
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-fuchsia-800"
+              className="pl-7 md:pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full focus:outline-none focus:border-fuchsia-800"
               placeholder="Search for a book"
             />
 
@@ -46,11 +44,9 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
             </button>
           </div>
         </form>
-
-        {/* Clear button outside the input */}
         <button
           onClick={handleClear}
-          className="ml-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
+          className="ml-2 xxl:ml-4 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors"
         >
           Clear
         </button>

@@ -15,7 +15,7 @@ const SearchByPrice: React.FC<SearchByPriceProps> = ({ onPriceChange }) => {
   };
 
   return (
-    <div className="w-[400px] flex flex-col justify-end mb-4">
+    <div className="w-[240px] sm:w-[440px] lg:w-[390px] xl:w-[440px] flex flex-col justify-end mb-4">
       <h1 className="text-lg mb-4">Search by Price :</h1>
       <select
         id="priceRange"

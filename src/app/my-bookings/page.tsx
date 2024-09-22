@@ -3,13 +3,14 @@
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { MdOutlineModeEdit } from "react-icons/md";
-import { FiTrash } from "react-icons/fi";
+import { FiMinusCircle, FiTrash } from "react-icons/fi";
 import axios from "axios";
 import { Booking } from "@/types";
 import useCart from "@/hooks/useCart";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UpdateModal from "@/components/shared/UpdateModal";
 import Image from "next/image";
+import { GoPlusCircle } from "react-icons/go";
 
 const BookingsPage: React.FC = () => {
   const { data: session } = useSession();
@@ -125,7 +126,7 @@ const BookingsPage: React.FC = () => {
       <h1 className="text-3xl font-bold flex justify-center items-center">
         My Bookings
       </h1>
-      <div className="mt-12">
+      <div className="mt-10">
         <div className="overflow-x-auto shadow-md sm:rounded-lg">
           <table className="min-w-full text-left text-sm font-light">
             <thead className="bg-gray-700 text-gray-200">
@@ -168,7 +169,7 @@ const BookingsPage: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {bookings.map((booking: Booking, index: number) => (
                 <tr key={booking._id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">{index + 1}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="relative w-[80px] h-[80px]">
                       <Image
@@ -180,48 +181,60 @@ const BookingsPage: React.FC = () => {
                       />
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.bookName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.writerName}
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {session?.user?.name}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.address}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.phone}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     {booking.date}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap flex items-center">
-                    <button onClick={() => handleDecrementQuantity(booking)}>
-                      -
-                    </button>
-                    <span className="mx-2">{booking.quantity}</span>
-                    <button onClick={() => handleIncrementQuantity(booking)}>
-                      +
-                    </button>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center border-2">
+                      <button
+                        className="text-lg"
+                        onClick={() => handleDecrementQuantity(booking)}
+                      >
+                        <GoPlusCircle />
+                      </button>
+                      <span className="mx-2 text-black text-[16px] font-medium">
+                        {booking.quantity}
+                      </span>
+                      <button
+                        className="text-lg"
+                        onClick={() => handleIncrementQuantity(booking)}
+                      >
+                        <FiMinusCircle />
+                      </button>
+                    </div>
                   </td>
 
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
                     ${booking.price}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap flex items-center">
-                    <button onClick={() => handleEdit(booking)}>
-                      <MdOutlineModeEdit className="text-xl text-blue-500 hover:text-blue-700" />
-                    </button>
-                    <button
-                      className="ms-4"
-                      onClick={() => handleDelete(booking._id)}
-                    >
-                      <FiTrash className="text-xl text-red-500 hover:text-red-700" />
-                    </button>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center">
+                      <button onClick={() => handleEdit(booking)}>
+                        <MdOutlineModeEdit className="text-xl text-blue-500 hover:text-blue-700" />
+                      </button>
+                      <button
+                        className="ms-4"
+                        onClick={() => handleDelete(booking._id)}
+                      >
+                        <FiTrash className="text-xl text-red-500 hover:text-red-700" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
