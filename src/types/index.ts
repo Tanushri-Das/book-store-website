@@ -42,6 +42,7 @@ export type Booking = {
   address: string;
   phone: string;
   date: string;
+  bookID: string;
   bookImage: string;
 };
 

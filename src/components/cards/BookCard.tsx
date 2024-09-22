@@ -15,6 +15,17 @@ import BookingModal from "../shared/BookingModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import useCart from "@/hooks/useCart";
+
+type BookingItem = {
+  bookID: string;
+  // add other relevant properties if necessary
+};
+
+interface CartData {
+  mybookings: BookingItem[];
+  // add other properties as needed
+}
 
 const BookCard = ({ book }: { book: TBook }) => {
   const { book_name, writer_name, image, price, _id } = book || {};
@@ -22,6 +33,11 @@ const BookCard = ({ book }: { book: TBook }) => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const router = useRouter();
+  const { data: cartData } = useCart() as { data: CartData | undefined };
+
+  const isInCart = cartData?.mybookings?.some(
+    (item: BookingItem) => item.bookID === _id
+  );
 
   // Add to Booking Mutation
   const bookingMutation = useMutation({
@@ -50,6 +66,10 @@ const BookCard = ({ book }: { book: TBook }) => {
   });
 
   const handleAddToCart = () => {
+    if (isInCart) {
+      alert("This book is already in your cart.");
+      return;
+    }
     setShowModal(true);
   };
 
