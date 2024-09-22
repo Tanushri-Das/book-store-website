@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 
 export const DELETE = async (
-  req: any,
+  req: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   const client = await clientPromise;
@@ -15,12 +15,13 @@ export const DELETE = async (
       _id: new ObjectId(params.id),
     });
 
-    return Response.json({
+    return NextResponse.json({
       message: "Deleted bookings successfully",
       response: res,
     });
   } catch (error) {
-    return Response.json({ message: "Something went wrong" });
+    console.error("Error deleting booking:", error);
+    return NextResponse.json({ message: "Something went wrong" });
   }
 };
 
@@ -31,12 +32,12 @@ export const PATCH = async (
   const client = await clientPromise;
   const db = client.db();
   const bookingsCollection = db.collection("bookings");
-  const { address, date, phone } = await req.json();
+  const { address, date, phone, quantity, price } = await req.json();
 
   try {
     const res = await bookingsCollection.updateOne(
       { _id: new ObjectId(params.id) },
-      { $set: { address, date, phone } },
+      { $set: { address, date, phone, quantity, price } }, // Include quantity and price in the update
       { upsert: true }
     );
     return NextResponse.json({

@@ -31,6 +31,7 @@ export interface NewBooking {
   bookName: string;
   writerName: string;
   bookImage: string;
+  quantity: number;
   bookID: string;
   price: number;
 }
@@ -43,6 +44,7 @@ export type Booking = {
   phone: string;
   date: string;
   bookID: string;
+  quantity: number;
   bookImage: string;
 };
 

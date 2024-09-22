@@ -24,6 +24,7 @@ const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
       bookName: book_name,
       writerName: writer_name,
       bookImage: image,
+      quantity: 1,
       bookID: _id,
       price: price,
     };

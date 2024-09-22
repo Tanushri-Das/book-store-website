@@ -5,10 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/shared/Header";
 import Footer from "@/components/shared/Footer";
 import SessionWrapper from "@/components/shared/SessionWrapper";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import TanstackProvider from "@/components/TanstackProvider";
-// Create a client
-const queryClient = new QueryClient();
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

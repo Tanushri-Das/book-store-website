@@ -54,24 +54,6 @@ const BookingsPage: React.FC = () => {
     },
   });
 
-  // Handle loading state
-  if (isLoading) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>Loading bookings...</p>
-      </main>
-    );
-  }
-
-  // Handle error state
-  if (error) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>There was an error loading the bookings.</p>
-      </main>
-    );
-  }
-
   // Extract bookings from cartData
   const bookings = cartData?.mybookings || [];
 
@@ -85,7 +67,59 @@ const BookingsPage: React.FC = () => {
     setSelectedBooking(booking);
     setIsModalOpen(true);
   };
+  // Mutation for updating quantity
+  const updateQuantityMutation = useMutation({
+    mutationFn: async (updatedBooking: Booking) => {
+      return await axios.patch(
+        `/my-bookings/api/booking/${updatedBooking._id}`,
+        {
+          ...updatedBooking,
+        }
+      );
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["myBookings", session?.user?.email ?? ""],
+      });
+    },
+    onError: (error) => {
+      console.error("Error updating quantity:", error);
+    },
+  });
+  const handleIncrementQuantity = (booking: Booking) => {
+    const updatedBooking = { ...booking, quantity: booking.quantity + 1 };
+    updatedBooking.price = updatedBooking.price * updatedBooking.quantity; // Update price
+    updateQuantityMutation.mutate(updatedBooking);
+  };
 
+  const handleDecrementQuantity = (booking: Booking) => {
+    if (booking.quantity > 1) {
+      // Ensure quantity doesn't go below 1
+      const updatedBooking = { ...booking, quantity: booking.quantity - 1 };
+      updatedBooking.price = updatedBooking.price * updatedBooking.quantity; // Update price
+      updateQuantityMutation.mutate(updatedBooking);
+    }
+  };
+  const totalAmount = bookings.reduce(
+    (acc: number, booking: Booking) => acc + booking.price,
+    0
+  );
+
+  if (isLoading) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        <p>Loading bookings...</p>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="mt-2 flex min-h-screen flex-col items-center">
+        <p>There was an error loading the bookings.</p>
+      </main>
+    );
+  }
   return (
     <div className="m-6 md:m-12">
       <h1 className="text-3xl font-bold flex justify-center items-center">
@@ -109,9 +143,6 @@ const BookingsPage: React.FC = () => {
                   Writer Name
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  Price
-                </th>
-                <th scope="col" className="px-6 py-3">
                   Username
                 </th>
                 <th scope="col" className="px-6 py-3">
@@ -122,6 +153,12 @@ const BookingsPage: React.FC = () => {
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Booking Date
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Quantity
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Price
                 </th>
                 <th scope="col" className="px-6 py-3">
                   Actions
@@ -149,9 +186,7 @@ const BookingsPage: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     {booking.writerName}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    ${booking.price}
-                  </td>
+
                   <td className="px-6 py-4 whitespace-nowrap">
                     {session?.user?.name}
                   </td>
@@ -163,6 +198,19 @@ const BookingsPage: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     {booking.date}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap flex items-center">
+                    <button onClick={() => handleDecrementQuantity(booking)}>
+                      -
+                    </button>
+                    <span className="mx-2">{booking.quantity}</span>
+                    <button onClick={() => handleIncrementQuantity(booking)}>
+                      +
+                    </button>
+                  </td>
+
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    ${booking.price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap flex items-center">
                     <button onClick={() => handleEdit(booking)}>
@@ -181,7 +229,10 @@ const BookingsPage: React.FC = () => {
           </table>
         </div>
       </div>
-
+      {/* Total Amount */}
+      <div className="mt-4 text-lg font-bold text-center">
+        Total Amount: ${totalAmount.toFixed(2)}
+      </div>
       {/* Render Update Modal when open */}
       {isModalOpen && selectedBooking && (
         <UpdateModal

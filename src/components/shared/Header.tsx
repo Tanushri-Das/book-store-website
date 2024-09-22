@@ -20,12 +20,10 @@ const Header = () => {
   const {
     data: cartData,
     isLoading: isCartLoading,
-    error: cartError,
   } = useCart();
   const {
     data: wishlistData,
     isLoading: isWishlistLoading,
-    error: wishlistError,
   } = useWishlist();
 
   const toggleDrawer = () => {

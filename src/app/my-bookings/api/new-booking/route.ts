@@ -1,4 +1,5 @@
 import clientPromise from "@/lib/MongodbClient";
+import { ObjectId } from "mongodb";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
@@ -11,7 +12,7 @@ export const POST = async (request: Request) => {
     const bookingsCollection = db.collection("bookings");
 
     // Insert the new booking into the database
-    const res = await bookingsCollection.insertOne(newBooking);
+    await bookingsCollection.insertOne(newBooking); // No need to store the result
 
     return NextResponse.json(
       { message: "Booking added successfully" },

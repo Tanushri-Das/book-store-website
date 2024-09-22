@@ -12,7 +12,7 @@ export const POST = async (request: Request) => {
     const wishlistsCollection = db.collection("wishlists");
 
     // Insert the new wishlist into the database
-    const res = await wishlistsCollection.insertOne(newWishlist);
+    await wishlistsCollection.insertOne(newWishlist);
 
     return NextResponse.json(
       { message: "Wishlist added successfully" },
