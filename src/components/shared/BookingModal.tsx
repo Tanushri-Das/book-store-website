@@ -15,22 +15,20 @@ const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (session?.user?.email) {
-      const newBooking: NewBooking = {
-        email: session?.user?.email || "",
-        name: session?.user?.name || "",
-        address: e.currentTarget.address.value,
-        phone: e.currentTarget.phone.value,
-        date: e.currentTarget.date.value,
-        bookName: book_name,
-        writerName: writer_name,
-        bookImage: image,
-        quantity: 1,
-        bookID: _id,
-        price: price,
-      };
-      onSubmit(newBooking);
-    }
+    const newBooking: NewBooking = {
+      email: session?.user?.email || "",
+      name: session?.user?.name || "",
+      address: e.currentTarget.address.value,
+      phone: e.currentTarget.phone.value,
+      date: e.currentTarget.date.value,
+      bookName: book_name,
+      writerName: writer_name,
+      bookImage: image,
+      quantity: 1,
+      bookID: _id,
+      price: price,
+    };
+    onSubmit(newBooking);
   };
 
   return (

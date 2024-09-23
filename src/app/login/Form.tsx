@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,9 +12,8 @@ import {
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
-// Define the form data structure
 interface LoginFormValues {
   email: string;
   password: string;
@@ -27,18 +25,22 @@ const LoginForm = () => {
   });
 
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   async function onSubmit(values: LoginFormValues) {
     const response = await signIn("credentials", {
       email: values.email,
       password: values.password,
-      redirect: false,
+      redirect: false, 
     });
+
     console.log("login", response);
+
     if (response?.error) {
-      console.error(response.error);
+      console.error(response.error); 
     } else {
-      router.push("/");
+      router.push(callbackUrl);
     }
   }
 
@@ -92,7 +94,7 @@ const LoginForm = () => {
           )}
         />
         <p className="block text-center text-[16px] font-medium">
-          Do not have an account ? <Link href={"/register"}>Sign Up</Link>
+          Do not have an account? <Link href={"/register"}>Sign Up</Link>
         </p>
 
         <Button
@@ -106,7 +108,7 @@ const LoginForm = () => {
           <button
             onClick={() =>
               signIn("google", {
-                callbackUrl: "http://localhost:3000/dashboard",
+                callbackUrl,
               })
             }
             className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
@@ -116,7 +118,7 @@ const LoginForm = () => {
           <button
             onClick={() =>
               signIn("github", {
-                callbackUrl: "http://localhost:3000/dashboard",
+                callbackUrl,
               })
             }
             className="border border-black dark:border-gray-300 rounded-lg px-5 py-[6px]"
