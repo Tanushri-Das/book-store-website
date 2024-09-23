@@ -2,6 +2,9 @@
 
 import useBooks from "@/hooks/useBook";
 import FeaturedBooks from "../Featured/page";
+import Banner from "./Banner";
+import Faq from "./Faq";
+import Testimonials from "./Testimonials/Testimonials";
 
 const Homepage = () => {
   const { data: booksData, isLoading, isError, isSuccess } = useBooks();
@@ -22,7 +25,12 @@ const Homepage = () => {
   }
 
   return (
-    <div>{isSuccess && booksData && <FeaturedBooks books={booksData} />}</div>
+    <div>
+      <Banner />
+      {isSuccess && booksData && <FeaturedBooks books={booksData} />}
+      <Faq/>
+      <Testimonials/>
+    </div>
   );
 };
 

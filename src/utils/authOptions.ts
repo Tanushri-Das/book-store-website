@@ -3,7 +3,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "@/lib/MongodbClient";
-import bcrypt from "bcryptjs"; // Using bcryptjs
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
   session: {
@@ -61,10 +61,13 @@ export const authOptions: NextAuthOptions = {
         // Return the user object with ObjectId converted to string
         return {
           id: user._id.toString(),
-          name: user.name,     // new
+          name: user.name, // new
           email: user.email,
         };
       },
     }),
   ],
+  pages: {
+    signIn: "/login",
+  },
 };

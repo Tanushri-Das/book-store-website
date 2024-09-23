@@ -63,3 +63,10 @@ export type Wishlist = {
   price: number;
   bookImage: string;
 };
+export type Reviews = {
+  _id: string;
+  name: string;
+  rating: number;
+  review: string;
+  image: string;
+};

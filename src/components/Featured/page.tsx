@@ -6,7 +6,7 @@ const FeaturedBooks = ({ books }: { books: TBook[] }) => {
   return (
     <div className="text-black dark:text-white">
       <Container>
-        <h1 className="text-4xl text-center">
+        <h1 className="text-4xl text-center font-bold">
           Featured <span className="text-fuchsia-800">Books</span>
         </h1>
         <p className="text-gray-400 text-center italic w-2/4 mx-auto mt-2">
