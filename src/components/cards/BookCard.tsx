@@ -10,12 +10,13 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import BookingModal from "../shared/BookingModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 import useCart from "@/hooks/useCart";
+import Swal from "sweetalert2";
 
 type BookingItem = {
   bookID: string;
@@ -32,8 +33,9 @@ const BookCard = ({ book }: { book: TBook }) => {
   const [showModal, setShowModal] = useState(false);
   const { data: session } = useSession();
   const queryClient = useQueryClient();
-  const router = useRouter();
   const { data: cartData } = useCart() as { data: CartData | undefined };
+  const router = useRouter();
+  const pathname = usePathname();
 
   const isInCart = cartData?.mybookings?.some(
     (item: BookingItem) => item.bookID === _id
@@ -66,11 +68,24 @@ const BookCard = ({ book }: { book: TBook }) => {
   });
 
   const handleAddToCart = () => {
-    if (isInCart) {
+    if (!session?.user?.email) {
+      Swal.fire({
+        title: "Please login to book the item",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Now",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push(`/login?callbackUrl=${pathname}`);
+        }
+      });
+    } else if (isInCart) {
       alert("This book is already in your cart.");
-      return;
+    } else {
+      setShowModal(true);
     }
-    setShowModal(true);
   };
 
   const handleCloseModal = () => {

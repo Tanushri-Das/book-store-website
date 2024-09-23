@@ -88,19 +88,25 @@ const BookingsPage: React.FC = () => {
     },
   });
   const handleIncrementQuantity = (booking: Booking) => {
-    const updatedBooking = { ...booking, quantity: booking.quantity + 1 };
-    updatedBooking.price = updatedBooking.price * updatedBooking.quantity; // Update price
+    const updatedBooking = {
+      ...booking,
+      quantity: booking.quantity + 1,
+      price: (booking.price / booking.quantity) * (booking.quantity + 1), // Calculate price based on the original price
+    };
     updateQuantityMutation.mutate(updatedBooking);
   };
 
   const handleDecrementQuantity = (booking: Booking) => {
     if (booking.quantity > 1) {
-      // Ensure quantity doesn't go below 1
-      const updatedBooking = { ...booking, quantity: booking.quantity - 1 };
-      updatedBooking.price = updatedBooking.price * updatedBooking.quantity; // Update price
+      const updatedBooking = {
+        ...booking,
+        quantity: booking.quantity - 1,
+        price: (booking.price / booking.quantity) * (booking.quantity - 1), // Calculate price based on the original price
+      };
       updateQuantityMutation.mutate(updatedBooking);
     }
   };
+
   const totalAmount = bookings.reduce(
     (acc: number, booking: Booking) => acc + booking.price,
     0
@@ -169,7 +175,9 @@ const BookingsPage: React.FC = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {bookings.map((booking: Booking, index: number) => (
                 <tr key={booking._id} className="hover:bg-gray-100">
-                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">{index + 1}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
+                    {index + 1}
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="relative w-[80px] h-[80px]">
                       <Image
@@ -204,7 +212,7 @@ const BookingsPage: React.FC = () => {
                     <div className="flex items-center border-2">
                       <button
                         className="text-lg"
-                        onClick={() => handleDecrementQuantity(booking)}
+                        onClick={() => handleIncrementQuantity(booking)}
                       >
                         <GoPlusCircle />
                       </button>
@@ -213,7 +221,7 @@ const BookingsPage: React.FC = () => {
                       </span>
                       <button
                         className="text-lg"
-                        onClick={() => handleIncrementQuantity(booking)}
+                        onClick={() => handleDecrementQuantity(booking)}
                       >
                         <FiMinusCircle />
                       </button>
