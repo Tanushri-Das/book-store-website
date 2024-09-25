@@ -44,9 +44,15 @@ const ContactUs: React.FC = () => {
 
   return (
     <Container>
+      <h1 className="text-4xl text-center font-bold mb-4">Contact Us</h1>
+      <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-2/4 mx-auto">
+        Reach out to us for any inquiries related to our books, shipping, or
+        your account. We value your experience and look forward to connecting
+        with you.
+      </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+        className="space-y-6 mt-10 max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
       >
         {/* First Name and Last Name */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -139,10 +145,7 @@ const ContactUs: React.FC = () => {
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <button
-            type="submit"
-            className="bg-blue-600 text-white text-lg font-semibold py-3 px-6 rounded-lg shadow hover:bg-blue-700 transition-all duration-300"
-          >
+          <button className="rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300">
             Submit
           </button>
         </div>

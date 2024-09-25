@@ -14,6 +14,7 @@ import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Container from "@/components/Container";
+import Swal from "sweetalert2";
 
 interface LoginFormValues {
   email: string;
@@ -40,7 +41,20 @@ const LoginForm = () => {
 
     if (response?.error) {
       console.error(response.error);
+      Swal.fire({
+        title: "Error!",
+        text: "Somwthing went wrong.please try again",
+        icon: "error",
+        confirmButtonText: "Retry",
+      });
     } else {
+      Swal.fire({
+        title: "Success!",
+        text: "Login successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       router.push(callbackUrl);
     }
   }

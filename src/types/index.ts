@@ -77,3 +77,8 @@ export type Contact = {
   phone: string;
   message: string;
 };
+export type Choose = {
+  _id: string;
+  image: string;
+  title: string;
+};

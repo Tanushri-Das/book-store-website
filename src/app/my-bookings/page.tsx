@@ -11,6 +11,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import UpdateModal from "@/components/shared/UpdateModal";
 import Image from "next/image";
 import { GoPlusCircle } from "react-icons/go";
+import Swal from "sweetalert2";
 
 const BookingsPage: React.FC = () => {
   const { data: session } = useSession();
@@ -61,6 +62,13 @@ const BookingsPage: React.FC = () => {
   // Handle delete button click
   const handleDelete = (bookingId: string) => {
     deleteMutation.mutate(bookingId);
+    Swal.fire({
+      title: "Success!",
+      text: "Book deleted succesfully from the cart",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   };
 
   // Handle edit button click to open modal
@@ -115,7 +123,7 @@ const BookingsPage: React.FC = () => {
   if (isLoading) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>Loading bookings...</p>
+        <h2 className="text-xl font-semibold">Loading bookings...</h2>
       </main>
     );
   }
@@ -123,7 +131,9 @@ const BookingsPage: React.FC = () => {
   if (error) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>There was an error loading the bookings.</p>
+        <h2 className="text-xl font-semibold">
+          There was an error loading the bookings...
+        </h2>
       </main>
     );
   }
@@ -209,7 +219,7 @@ const BookingsPage: React.FC = () => {
                     {booking.date}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center border-2">
+                    <div className="flex items-center">
                       <button
                         className="text-lg"
                         onClick={() => handleIncrementQuantity(booking)}

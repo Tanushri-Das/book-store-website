@@ -2,7 +2,7 @@ import Container from "@/components/Container";
 import { TBook } from "@/types";
 import BookCard from "../cards/BookCard";
 
-const FeaturedBooks = ({ books }: { books: TBook[] }) => {
+const Featured = ({ books }: { books: TBook[] }) => {
   return (
     <div className="text-black dark:text-white mt-0 lg:mt-3">
       <Container>
@@ -24,4 +24,4 @@ const FeaturedBooks = ({ books }: { books: TBook[] }) => {
   );
 };
 
-export default FeaturedBooks;
+export default Featured;

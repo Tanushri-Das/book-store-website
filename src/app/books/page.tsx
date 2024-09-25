@@ -259,15 +259,14 @@ const Books = () => {
   if (isLoading) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        It is loading...
+        <h2 className="text-xl font-semibold">Loading...</h2>
       </main>
     );
   }
-
   if (isError) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        There is an error...
+        <h2 className="text-xl font-semibold">There is an error...</h2>
       </main>
     );
   }

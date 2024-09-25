@@ -2,6 +2,7 @@
 import { useSession } from "next-auth/react";
 import React, { FormEvent } from "react";
 import { TBook, NewBooking } from "@/types";
+import Swal from "sweetalert2";
 
 interface BookingModalProps {
   book: TBook;
@@ -29,6 +30,13 @@ const BookingModal = ({ book, onClose, onSubmit }: BookingModalProps) => {
       price: price,
     };
     onSubmit(newBooking);
+    Swal.fire({
+      title: "Success!",
+      text: "Book added to the cart",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   };
 
   return (

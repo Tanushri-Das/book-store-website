@@ -1,5 +1,6 @@
 import { Booking } from "@/types";
 import React, { useState } from "react";
+import Swal from "sweetalert2";
 
 interface UpdateModalProps {
     booking: Booking;
@@ -25,6 +26,13 @@ interface UpdateModalProps {
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       onSubmit({ ...booking, ...formData }); // Submit updated booking data
+      Swal.fire({
+        title: "Success!",
+        text: "Update personal information succesfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     };
   
     return (

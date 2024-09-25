@@ -98,7 +98,20 @@ const BookCard = ({ book }: { book: TBook }) => {
   };
 
   const handleAddToWishlist = () => {
-    if (session?.user?.email) {
+    if (!session?.user?.email) {
+      Swal.fire({
+        title: "Please login to add the item to your wishlist",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Login Now",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          router.push(`/login?callbackUrl=${pathname}`);
+        }
+      });
+    } else {
       const newWishlist: NewWishlist = {
         bookName: book_name,
         writerName: writer_name,

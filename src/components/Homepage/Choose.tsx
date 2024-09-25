@@ -1,0 +1,44 @@
+import Container from "@/components/Container";
+import { Card, CardTitle, CardContent } from "@/components/ui/card";
+import getChoose from "@/services/getChoose";
+import Image from "next/image";
+
+const Choose = () => {
+  const { data: choose = [] } = getChoose();
+  return (
+    <>
+      <Container>
+        <h1 className="text-4xl text-center font-bold mb-4">Why Choose Us</h1>
+        <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-2/4 mx-auto">
+          We curate a diverse collection of books, offering exceptional customer
+          service and expert recommendations to enhance your reading experience.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
+          {choose?.map((data) => (
+            <Card
+              key={data._id}
+              className="shadow-lg rounded-lg overflow-hidden py-3"
+            >
+              <div className="flex justify-center items-center">
+                <Image
+                  src={data.image}
+                  alt={data.title}
+                  width={120}
+                  height={120}
+                  className="object-cover"
+                />
+              </div>
+              <CardContent>
+                <CardTitle className="text-fuchsia-800 text-xl font-semibold text-center pt-3">
+                  {data.title}
+                </CardTitle>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </Container>
+    </>
+  );
+};
+
+export default Choose;
