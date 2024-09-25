@@ -82,3 +82,12 @@ export type Choose = {
   image: string;
   title: string;
 };
+export type BookingItem = {
+  bookID: string;
+};
+export interface CartData {
+  mybookings: BookingItem[];
+}
+export type WishlistItem = {
+  bookID: string;
+};

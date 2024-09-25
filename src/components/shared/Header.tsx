@@ -70,7 +70,7 @@ const Header = () => {
                     {isWishlistLoading ? (
                       <p className="text-lg">Loading...</p>
                     ) : (
-                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[9px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[8px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
                         <p className="text-[16px]">
                           {wishlistData?.mywishlists?.length || 0}
                         </p>

@@ -1,4 +1,4 @@
-import { NewBooking, NewWishlist, TBook } from "@/types";
+import { BookingItem, CartData, NewBooking, NewWishlist, TBook } from "@/types";
 import Image from "next/image";
 import {
   Card,
@@ -17,16 +17,6 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import useCart from "@/hooks/useCart";
 import Swal from "sweetalert2";
-
-type BookingItem = {
-  bookID: string;
-  // add other relevant properties if necessary
-};
-
-interface CartData {
-  mybookings: BookingItem[];
-  // add other properties as needed
-}
 
 const BookCard = ({ book }: { book: TBook }) => {
   const { book_name, writer_name, image, price, _id } = book || {};

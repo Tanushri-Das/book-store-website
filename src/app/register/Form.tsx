@@ -12,15 +12,35 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RegisterFormValues } from "@/types";
+import Swal from "sweetalert2";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const RegisterForm = () => {
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+  const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   const form = useForm<RegisterFormValues>({
     defaultValues: {},
   });
 
   async function onSubmit(values: RegisterFormValues) {
+    if (values.password !== values.confirmPassword) {
+      // Passwords do not match, set passwordsMatch to false
+      setPasswordsMatch(false);
+      return;
+    }
+
+    // Passwords match, proceed with form submission.
+    setPasswordsMatch(true);
     const response = await fetch(`/api/auth/register`, {
       method: "POST",
       body: JSON.stringify(values),
@@ -31,7 +51,20 @@ const RegisterForm = () => {
 
     if (data.error) {
       console.error(data.error);
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong. Please try again.",
+        icon: "error",
+        confirmButtonText: "Retry",
+      });
     } else {
+      Swal.fire({
+        title: "Success!",
+        text: "Registered successfully",
+        icon: "success",
+        timer: 1500,
+        showConfirmButton: false,
+      });
       router.push("/login");
     }
   }
@@ -57,7 +90,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="John Doe"
                   {...field}
-                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
+                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
                   required
                 />
               </FormControl>
@@ -76,7 +109,7 @@ const RegisterForm = () => {
                 <Input
                   placeholder="johndoe@whatever.com"
                   {...field}
-                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
+                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
                   required
                   pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
                 />
@@ -93,14 +126,22 @@ const RegisterForm = () => {
                 Password
               </FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  {...field}
-                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
-                  required
-                  placeholder="Password"
-                  minLength={6}
-                />
+                <div className="relative">
+                  <Input
+                    type={showPassword ? "text" : "password"} // Toggle password visibility
+                    {...field}
+                    className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
+                    required
+                    placeholder="Password"
+                    minLength={6}
+                  />
+                  <span
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                    onClick={togglePasswordVisibility} // Toggle function
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                </div>
               </FormControl>
             </FormItem>
           )}
@@ -114,23 +155,27 @@ const RegisterForm = () => {
                 Confirm Password
               </FormLabel>
               <FormControl>
-                <Input
-                  type="password"
-                  {...field}
-                  className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
-                  required
-                  placeholder="Confirm Password"
-                  minLength={6}
-                  onBlur={(e) => {
-                    const password = form.getValues("password");
-                    if (e.target.value !== password) {
-                      form.setError("confirmPassword", {
-                        type: "manual",
-                        message: "The passwords did not match",
-                      });
-                    }
-                  }}
-                />
+                <div className="relative">
+                  <Input
+                    type={showConfirmPassword ? "text" : "password"}
+                    {...field}
+                    className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
+                    required
+                    placeholder="Confirm Password"
+                    minLength={6}
+                  />
+                  <span
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                    onClick={toggleConfirmPasswordVisibility}
+                  >
+                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  </span>
+                  {!passwordsMatch && (
+                    <span className="text-red-600 text-xl mt-1">
+                      Password and Confirm Password do not match
+                    </span>
+                  )}
+                </div>
               </FormControl>
             </FormItem>
           )}

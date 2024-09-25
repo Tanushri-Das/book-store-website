@@ -52,7 +52,7 @@ const ContactUs: React.FC = () => {
       </p>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 mt-10 max-w-lg mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
+        className="space-y-6 mt-10 max-w-xl mx-auto bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg"
       >
         {/* First Name and Last Name */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import BookingModal from "@/components/shared/BookingModal";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 const WishlistPage = () => {
   const { data: session } = useSession();
@@ -105,6 +106,13 @@ const WishlistPage = () => {
 
   const handleDelete = (wishlistId: string) => {
     deleteMutation.mutate(wishlistId);
+    Swal.fire({
+      title: "Success!",
+      text: "Book deleted succesfully from the wishlist",
+      icon: "success",
+      timer: 1500,
+      showConfirmButton: false,
+    });
   };
 
   return (

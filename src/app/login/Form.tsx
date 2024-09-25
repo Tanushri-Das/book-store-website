@@ -15,6 +15,8 @@ import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Container from "@/components/Container";
 import Swal from "sweetalert2";
+import { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 interface LoginFormValues {
   email: string;
@@ -29,6 +31,11 @@ const LoginForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   async function onSubmit(values: LoginFormValues) {
     const response = await signIn("credentials", {
@@ -81,7 +88,7 @@ const LoginForm = () => {
                   <Input
                     placeholder="johndoe@whatever.com"
                     {...field}
-                    className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
+                    className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
                     required
                   />
                 </FormControl>
@@ -97,20 +104,28 @@ const LoginForm = () => {
                   Password
                 </FormLabel>
                 <FormControl>
-                  <Input
-                    type="password"
-                    {...field}
-                    className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md focus:ring-blue-500 focus:border-blue-500 w-full"
-                    required
-                    placeholder="Password"
-                    minLength={6}
-                  />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"} // Toggle password visibility
+                      {...field}
+                      className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
+                      required
+                      placeholder="Password"
+                      minLength={6}
+                    />
+                    <span
+                      className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
+                      onClick={togglePasswordVisibility} // Toggle function
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </span>
+                  </div>
                 </FormControl>
               </FormItem>
             )}
           />
           <p className="block text-center text-[16px] font-medium">
-            Do not have an account? <Link href={"/register"}>Sign Up</Link>
+            Do not have an account ? <Link href={"/register"}>Sign Up</Link>
           </p>
 
           <Button
