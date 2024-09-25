@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import Img1 from "@/assets/banner1.jpg";
@@ -10,9 +9,8 @@ import Container from "../Container";
 
 const Banner = () => {
   return (
-    <div className="mt-14">
+    <div className="mt-10">
       <Container>
-        {" "}
         <Carousel autoPlay infiniteLoop>
           <div className="relative h-[600px] w-full">
             <Image

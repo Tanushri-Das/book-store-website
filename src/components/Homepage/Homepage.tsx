@@ -5,6 +5,9 @@ import FeaturedBooks from "../Featured/page";
 import Banner from "./Banner";
 import Faq from "./Faq";
 import Testimonials from "./Testimonials/Testimonials";
+import About from "./About";
+import Choose from "./Choose/Choose";
+import ContactUs from "../ContactUs/ContactUs";
 
 const Homepage = () => {
   const { data: booksData, isLoading, isError, isSuccess } = useBooks();
@@ -27,9 +30,12 @@ const Homepage = () => {
   return (
     <div>
       <Banner />
+      <About />
       {isSuccess && booksData && <FeaturedBooks books={booksData} />}
-      <Faq/>
-      <Testimonials/>
+      <Choose />
+      <Faq />
+      <Testimonials />
+      <ContactUs />
     </div>
   );
 };

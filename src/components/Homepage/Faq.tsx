@@ -12,11 +12,11 @@ const Faq = () => {
     <>
       <Container>
         <h1 className="text-4xl font-bold text-center mb-6">FAQ</h1>
-        <p className="text-xl text-center mb-10">
+        <p className="text-[18px] text-[#737373] text-center dark:font-semibold">
           Here are some common questions and answers about our bookstore
           services.
         </p>
-        <div className="w-10/12 md:w-3/4 mx-auto">
+        <div className="w-10/12 md:w-3/4 mx-auto mt-10">
         <Accordion type="single" collapsible>
           <AccordionItem value="item-1">
             <AccordionTrigger className="text-lg hover:no-underline">
