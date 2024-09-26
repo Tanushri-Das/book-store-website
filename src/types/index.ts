@@ -61,6 +61,7 @@ export type Wishlist = {
   bookName: string;
   writerName: string;
   price: number;
+  bookID: string;
   bookImage: string;
 };
 export type Reviews = {
@@ -88,6 +89,3 @@ export type BookingItem = {
 export interface CartData {
   mybookings: BookingItem[];
 }
-export type WishlistItem = {
-  bookID: string;
-};

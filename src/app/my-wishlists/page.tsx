@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import useWishlist from "@/hooks/useWishlist";
-import { NewBooking, Wishlist, TBook } from "@/types";
+import { NewBooking, Wishlist, TBook, BookingItem } from "@/types";
 import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { FiTrash } from "react-icons/fi";
@@ -11,13 +11,14 @@ import axios from "axios";
 import BookingModal from "@/components/shared/BookingModal";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import useCart from "@/hooks/useCart";
 
 const WishlistPage = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const { data: wishlistData, isLoading, error } = useWishlist();
   const router = useRouter();
-
+  const { data: cartItems, isLoading: isCartLoading } = useCart();
   // State for modal and selected book
   const [showModal, setShowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState<TBook | null>(null);
@@ -59,7 +60,7 @@ const WishlistPage = () => {
   if (isLoading) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>Loading wishlists...</p>
+        <h2 className="text-xl font-semibold">Loading wishlists...</h2>
       </main>
     );
   }
@@ -67,23 +68,44 @@ const WishlistPage = () => {
   if (error) {
     return (
       <main className="mt-2 flex min-h-screen flex-col items-center">
-        <p>There was an error loading the wishlists.</p>
+        <h2 className="text-xl font-semibold">
+          There was an error loading the wishlists...
+        </h2>
       </main>
     );
   }
 
   const wishlists = wishlistData?.mywishlists || [];
 
-  // Handle add to cart (open modal, but do not delete item yet)
-  const handleAddToCart = (book: Wishlist) => {
-    setSelectedBook({
-      book_name: book.bookName,
-      writer_name: book.writerName,
-      price: book.price,
-      _id: book._id,
-      image: book.bookImage,
-    });
-    setShowModal(true);
+  // Handle add to cart (check if already in cart)
+  const handleAddToCart = (wishlistBook: Wishlist) => {
+    if (isCartLoading) return; // If the cart data is still loading, don't allow the user to add to cart
+
+    // Check if the book is already in the user's cart
+    const isInCart = cartItems?.mybookings?.some(
+      (item: BookingItem) => item.bookID === wishlistBook.bookID
+    );
+    console.log("handleAddToCart isInCart", isInCart);
+
+    if (isInCart) {
+      Swal.fire({
+        title: "Already in Cart",
+        text: "This book is already added to your cart.",
+        icon: "info",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+    } else {
+      // If the book is not in the cart, open the booking modal
+      setSelectedBook({
+        book_name: wishlistBook.bookName,
+        writer_name: wishlistBook.writerName,
+        price: wishlistBook.price,
+        _id: wishlistBook._id,
+        image: wishlistBook.bookImage,
+      });
+      setShowModal(true);
+    }
   };
 
   // Close modal without deleting

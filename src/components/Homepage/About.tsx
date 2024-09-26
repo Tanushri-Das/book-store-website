@@ -21,7 +21,7 @@ const About = () => {
               />
 
               {/* Second image, hidden on small screens */}
-              <div className="hidden md:block absolute top-1/2 -right-12 w-[327px] h-[280px]">
+              <div className="hidden md:block absolute top-[55%] -right-14 w-[327px] h-[240px]">
                 <Image
                   src={about2}
                   alt="about2"
