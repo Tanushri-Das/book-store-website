@@ -28,7 +28,7 @@ const ContactUs: React.FC = () => {
 
       reset();
     },
-    onError: (error: any) => {
+    onError: () => {
       Swal.fire({
         title: "Error!",
         text: "There was an issue sending your message.",

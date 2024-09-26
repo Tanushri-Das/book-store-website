@@ -262,7 +262,7 @@ const BookingsPage: React.FC = () => {
       </div>
       {/* Total Amount */}
       <div className="mt-4 text-lg font-bold text-center">
-        Total Amount: ${totalAmount.toFixed(2)}
+        Total Amount : ${totalAmount.toFixed(2)}
       </div>
       {/* Render Update Modal when open */}
       {isModalOpen && selectedBooking && (

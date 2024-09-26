@@ -18,7 +18,9 @@ const Header = () => {
 
   // Use custom hooks and rename variables to avoid conflicts
   const { data: cartData, isLoading: isCartLoading } = useCart();
+  console.log("header", cartData);
   const { data: wishlistData, isLoading: isWishlistLoading } = useWishlist();
+  console.log("header", wishlistData);
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);

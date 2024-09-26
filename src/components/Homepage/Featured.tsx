@@ -10,7 +10,7 @@ const Featured = ({ books }: { books: TBook[] }) => {
           Featured <span className="text-fuchsia-800">Books</span>
         </h1>
         <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-2/4 mx-auto">
-          Discover our top picks from a variety of genres. Whether you're into
+          Discover our top picks from a variety of genres. Whether you are into
           fiction, non-fiction, or educational books, our featured collection
           offers something for every reader. Dive into a new story today!
         </p>

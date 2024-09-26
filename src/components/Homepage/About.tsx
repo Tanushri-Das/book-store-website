@@ -5,7 +5,7 @@ import about2 from "@/assets/about2.png";
 
 const About = () => {
   return (
-    <div className="-mt-9">
+    <div className="mt-3">
       <Container>
         <div className="flex flex-col lg:flex-row gap-16 md:gap-44 lg:gap-24">
           {/* Image section wrapper to center the images */}

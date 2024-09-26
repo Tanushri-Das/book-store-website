@@ -1,7 +1,7 @@
 import { Choose } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
-const getChoose = () => {
+const useChoose = () => {
   return useQuery<Choose[]>({
     queryKey: ["choose"],
     queryFn: () =>
@@ -14,4 +14,4 @@ const getChoose = () => {
   });
 };
 
-export default getChoose;
+export default useChoose;

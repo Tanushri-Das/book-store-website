@@ -8,12 +8,12 @@ import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { FaStar, FaStarHalf } from "react-icons/fa";
 import "./Testimonials.css";
 import { RiDoubleQuotesR } from "react-icons/ri";
-import getReviews from "@/services/getReviews";
 import Image from "next/image";
 import Container from "@/components/Container";
+import useReviews from "@/hooks/useReviews";
 
 const Testimonials = () => {
-  const { data: reviews = [] } = getReviews();
+  const { data: reviews } = useReviews();
 
   const [swiperSlidesPerView, setSwiperSlidesPerView] = useState(1);
 
@@ -65,7 +65,7 @@ const Testimonials = () => {
               modules={[Navigation]}
               className="mySwiper mt-10 h-[300px] relative"
             >
-              {reviews.map((review, index) => (
+              {reviews?.map((review, index) => (
                 <SwiperSlide key={index} style={{ height: "100%" }}>
                   <div className="flex flex-col border border-gray-200 rounded-xl px-5 pt-[33px] h-full">
                     <div className="flex justify-between">

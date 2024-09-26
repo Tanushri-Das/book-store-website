@@ -1,7 +1,7 @@
 import { Reviews } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 
-const getReviews = () => {
+const useReviews = () => {
   return useQuery<Reviews[]>({
     queryKey: ["reviews"],
     queryFn: () =>
@@ -14,4 +14,4 @@ const getReviews = () => {
   });
 };
 
-export default getReviews;
+export default useReviews;

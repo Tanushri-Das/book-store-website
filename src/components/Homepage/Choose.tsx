@@ -1,10 +1,10 @@
 import Container from "@/components/Container";
 import { Card, CardTitle, CardContent } from "@/components/ui/card";
-import getChoose from "@/services/getChoose";
+import useChoose from "@/hooks/useChoose";
 import Image from "next/image";
 
 const Choose = () => {
-  const { data: choose = [] } = getChoose();
+  const { data: chooseData } = useChoose();
   return (
     <>
       <Container>
@@ -14,7 +14,7 @@ const Choose = () => {
           service and expert recommendations to enhance your reading experience.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10">
-          {choose?.map((data) => (
+          {chooseData?.map((data) => (
             <Card
               key={data._id}
               className="shadow-lg rounded-lg overflow-hidden py-3"
