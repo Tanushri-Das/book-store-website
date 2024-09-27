@@ -48,13 +48,13 @@ const Testimonials = () => {
           <h2 className="text-4xl font-bold mb-5 text-center">
             Customer Reviews
           </h2>
-          <p className="text-[16px] text-[#737373] text-center dark:font-semibold px-16">
+          <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-full md:w-2/4 mx-auto">
             Discover what our customers have to say about their experiences! Our
             bookstore is dedicated to providing the best selection of books and
             an inviting atmosphere. Check out their reviews below to see why
             readers love us!
           </p>
-          <div className="mx-20 xl:mx-0 mt-10">
+          <div className="mx-0 sm:mx-20 xl:mx-0 mt-10">
             <Swiper
               slidesPerView={swiperSlidesPerView}
               spaceBetween={30}

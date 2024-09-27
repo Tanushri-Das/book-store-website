@@ -88,7 +88,7 @@
     top: 71%;
   }
 }
-@media (min-width: 768px) and (max-width: 1279px) {
+@media (min-width: 767px) and (max-width: 1279px) {
   .swiper-button-prev {
     border: 2px solid #86198f;
     border-radius: 50%;
@@ -101,7 +101,7 @@
     color: #86198f;
     position: absolute;
     left: 66px;
-    top: 60%;
+    top: 25px;
     transform: translateY(-50%);
     z-index: 2;
     cursor: pointer;
@@ -118,7 +118,7 @@
     color: white;
     position: absolute;
     right: 66px;
-    top: 60%;
+    top: 25px;
     transform: translateY(-50%);
     z-index: 2;
     cursor: pointer;

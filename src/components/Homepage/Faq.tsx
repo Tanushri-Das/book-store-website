@@ -12,7 +12,7 @@ const Faq = () => {
     <>
       <Container>
         <h1 className="text-4xl font-bold text-center mb-6">FAQ</h1>
-        <p className="text-[18px] text-[#737373] text-center dark:font-semibold">
+        <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-full md:w-2/4 mx-auto">
           Here are some common questions and answers about our bookstore
           services.
         </p>

@@ -73,7 +73,7 @@ const LoginForm = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6 max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800"
         >
-          <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-gray-100">
+          <h1 className="text-4xl font-bold text-center text-gray-800 dark:text-gray-100">
             Login
           </h1>
           <FormField
@@ -81,7 +81,7 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[16px] font-medium text-gray-700 dark:text-gray-300">
+                <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
                   Email
                 </FormLabel>
                 <FormControl>
@@ -100,13 +100,13 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-[16px] font-medium text-gray-700 dark:text-gray-300">
+                <FormLabel className="text-lg font-medium text-gray-700 dark:text-gray-300">
                   Password
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
-                      type={showPassword ? "text" : "password"} // Toggle password visibility
+                      type={showPassword ? "text" : "password"}
                       {...field}
                       className="border-gray-300 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 rounded-md  w-full"
                       required
@@ -115,7 +115,7 @@ const LoginForm = () => {
                     />
                     <span
                       className="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer"
-                      onClick={togglePasswordVisibility} // Toggle function
+                      onClick={togglePasswordVisibility}
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </span>
@@ -130,7 +130,7 @@ const LoginForm = () => {
 
           <Button
             type="submit"
-            className="w-full text-[16px] py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-colors duration-300"
+            className="w-full rounded-md text-white text-lg px-4 py-[6px] font-medium bg-fuchsia-800 hover:bg-fuchsia-700 dark:bg-transparent dark:border dark:border-gray-300"
           >
             Submit
           </Button>

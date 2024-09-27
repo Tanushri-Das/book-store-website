@@ -216,7 +216,7 @@ import { useState } from "react";
 import SearchByPrice from "@/components/SearchByPrice";
 
 const Books = () => {
-  const { data: booksData, isLoading, isError } = useBooks();
+  const { data: booksData } = useBooks();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("Mystery and Thriller");
   const [searchMessage, setSearchMessage] = useState("");
@@ -256,30 +256,18 @@ const Books = () => {
     setSelectedPriceRange(priceRange); // Set the selected price range
   };
 
-  if (isLoading) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">Loading...</h2>
-      </main>
-    );
-  }
-  if (isError) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">There is an error...</h2>
-      </main>
-    );
-  }
-
   return (
-    <div className="text-black dark:text-white mt-14">
+    <div className="text-black dark:text-white mt-10">
       <Container>
         <div className="mb-10">
-          <h1 className="text-4xl text-center text-fuchsia-800">Books</h1>
+          <h1 className="text-4xl font-semibold text-center">Books</h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 justify-between items-center">
           <SearchBar onSearch={handleSearch} onClear={handleClear} />
-          <SearchByPrice onPriceChange={handlePriceChange} />
+          <SearchByPrice
+            onPriceChange={handlePriceChange}
+            onClear={handleClear}
+          />
         </div>
 
         <BooksTab

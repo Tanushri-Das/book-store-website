@@ -16,9 +16,9 @@ import useCart from "@/hooks/useCart";
 const WishlistPage = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
-  const { data: wishlistData, isLoading, error } = useWishlist();
+  const { data: wishlistData } = useWishlist();
   const router = useRouter();
-  const { data: cartItems, isLoading: isCartLoading } = useCart();
+  const { data: cartItems } = useCart();
   // State for modal and selected book
   const [showModal, setShowModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState<TBook | null>(null);
@@ -57,30 +57,10 @@ const WishlistPage = () => {
     },
   });
 
-  if (isLoading) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">Loading wishlists...</h2>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">
-          There was an error loading the wishlists...
-        </h2>
-      </main>
-    );
-  }
-
   const wishlists = wishlistData?.mywishlists || [];
 
   // Handle add to cart (check if already in cart)
   const handleAddToCart = (wishlistBook: Wishlist) => {
-    if (isCartLoading) return; // If the cart data is still loading, don't allow the user to add to cart
-
     // Check if the book is already in the user's cart
     const isInCart = cartItems?.mybookings?.some(
       (item: BookingItem) => item.bookID === wishlistBook.bookID

@@ -45,7 +45,7 @@ const ContactUs: React.FC = () => {
   return (
     <Container>
       <h1 className="text-4xl text-center font-bold mb-4">Contact Us</h1>
-      <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-2/4 mx-auto">
+      <p className="text-[16px] text-[#737373] text-center dark:font-semibold w-full md:w-2/4 mx-auto">
         Reach out to us for any inquiries related to our books, shipping, or
         your account. We value your experience and look forward to connecting
         with you.

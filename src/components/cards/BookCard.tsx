@@ -72,7 +72,13 @@ const BookCard = ({ book }: { book: TBook }) => {
         }
       });
     } else if (isInCart) {
-      alert("This book is already in your cart.");
+      Swal.fire({
+        title: "Already in Cart",
+        text: "This book is already added to your cart.",
+        icon: "info",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } else {
       setShowModal(true);
     }
@@ -143,10 +149,18 @@ const BookCard = ({ book }: { book: TBook }) => {
           </h5>
         </CardContent>
         <CardFooter className="p-4 flex justify-center gap-x-5">
-          <Button variant="outline" onClick={handleAddToCart}>
+          <Button
+            variant="outline"
+            className="dark:bg-transparent dark:border dark:border-gray-300"
+            onClick={handleAddToCart}
+          >
             Add to Cart
           </Button>
-          <Button variant="outline" onClick={handleAddToWishlist}>
+          <Button
+            variant="outline"
+            className="dark:bg-transparent dark:border dark:border-gray-300"
+            onClick={handleAddToWishlist}
+          >
             Add to Wishlist
           </Button>
         </CardFooter>

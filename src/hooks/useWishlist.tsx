@@ -11,6 +11,8 @@ const useWishlist = () => {
         res.json()
       ),
     enabled: !!session?.user?.email,
+    
+    refetchInterval: 20000,
   });
 };
 

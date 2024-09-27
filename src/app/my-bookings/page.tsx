@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 const BookingsPage: React.FC = () => {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
-  const { data: cartData, isLoading, error } = useCart();
+  const { data: cartData } = useCart();
 
   // State to control modal visibility and booking data
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -120,23 +120,6 @@ const BookingsPage: React.FC = () => {
     0
   );
 
-  if (isLoading) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">Loading bookings...</h2>
-      </main>
-    );
-  }
-
-  if (error) {
-    return (
-      <main className="mt-2 flex min-h-screen flex-col items-center">
-        <h2 className="text-xl font-semibold">
-          There was an error loading the bookings...
-        </h2>
-      </main>
-    );
-  }
   return (
     <div className="m-6 md:m-12">
       <h1 className="text-3xl font-bold flex justify-center items-center">

@@ -17,9 +17,9 @@ const Header = () => {
   const { data: session } = useSession();
 
   // Use custom hooks and rename variables to avoid conflicts
-  const { data: cartData, isLoading: isCartLoading } = useCart();
+  const { data: cartData } = useCart();
   console.log("header", cartData);
-  const { data: wishlistData, isLoading: isWishlistLoading } = useWishlist();
+  const { data: wishlistData } = useWishlist();
   console.log("header", wishlistData);
 
   const toggleDrawer = () => {
@@ -32,7 +32,18 @@ const Header = () => {
         {/* Left: Logo */}
         <div className="text-lg font-bold lg:flex-grow-0">
           <Link href="/">
-            <Image src={logo} width={80} height={80} alt="logo" />
+            <div className="flex justify-center items-center">
+              <Image src={logo} width={80} height={80} alt="logo" />
+              <h1
+                className="text-3xl font-bold italic ms-2 hidden lg:block 
+        text-fuchsia-800 
+        hover:text-purple-700 
+        transition-all duration-300 ease-in-out 
+        shadow-lg hover:scale-105"
+              >
+                Book<span className="text-fuchsia-600">Nest</span>
+              </h1>
+            </div>
           </Link>
         </div>
 
@@ -54,30 +65,22 @@ const Header = () => {
                 <Link href="/my-bookings" className="text-lg">
                   <button className="btn relative">
                     <FaShoppingCart className="text-lg mt-2" />
-                    {isCartLoading ? (
-                      <p className="text-lg">Loading...</p>
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
-                        <p className="text-[16px]">
-                          {cartData?.mybookings?.length || 0}
-                        </p>
-                      </div>
-                    )}
+                    <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                      <p className="text-[16px]">
+                        {cartData?.mybookings?.length || 0}
+                      </p>
+                    </div>
                   </button>
                 </Link>
 
                 <Link href="/my-wishlists" className="text-lg">
                   <button className="btn relative">
                     <FaBell className="text-lg mt-2" />
-                    {isWishlistLoading ? (
-                      <p className="text-lg">Loading...</p>
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[8px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
-                        <p className="text-[16px]">
-                          {wishlistData?.mywishlists?.length || 0}
-                        </p>
-                      </div>
-                    )}
+                    <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[8px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                      <p className="text-[16px]">
+                        {wishlistData?.mywishlists?.length || 0}
+                      </p>
+                    </div>
                   </button>
                 </Link>
                 <button
@@ -144,15 +147,11 @@ const Header = () => {
                 >
                   <button className="btn relative">
                     <FaShoppingCart className="text-lg mt-2" />
-                    {isCartLoading ? (
-                      <p className="text-lg">Loading...</p>
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
-                        <p className="text-[16px]">
-                          {cartData?.mybookings?.length || 0}
-                        </p>
-                      </div>
-                    )}
+                    <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[10px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                      <p className="text-[16px]">
+                        {cartData?.mybookings?.length || 0}
+                      </p>
+                    </div>
                   </button>
                 </Link>
 
@@ -163,15 +162,11 @@ const Header = () => {
                 >
                   <button className="btn relative">
                     <FaBell className="text-lg mt-2" />
-                    {isWishlistLoading ? (
-                      <p className="text-lg">Loading...</p>
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[9px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
-                        <p className="text-[16px]">
-                          {wishlistData?.mywishlists?.length || 0}
-                        </p>
-                      </div>
-                    )}
+                    <div className="w-6 h-6 rounded-full bg-black text-white absolute top-[-10px] left-[9px] flex items-center justify-center dark:bg-transparent dark:border dark:border-gray-300">
+                      <p className="text-[16px]">
+                        {wishlistData?.mywishlists?.length || 0}
+                      </p>
+                    </div>
                   </button>
                 </Link>
                 <button
