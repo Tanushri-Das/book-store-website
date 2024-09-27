@@ -152,7 +152,7 @@ const WishlistPage = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white divide-y divide-gray-200">
               {wishlists.map((wishlist: Wishlist, index: number) => (
                 <tr key={wishlist._id} className="hover:bg-gray-100">
                   <td className="px-6 py-4 whitespace-nowrap text-black text-[16px] font-medium">
