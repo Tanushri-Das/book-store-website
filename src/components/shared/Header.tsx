@@ -39,7 +39,7 @@ const Header = () => {
         text-fuchsia-800 
         hover:text-purple-700 
         transition-all duration-300 ease-in-out 
-        shadow-lg hover:scale-105"
+        hover:scale-105"
               >
                 Book<span className="text-fuchsia-600">Nest</span>
               </h1>
@@ -56,9 +56,6 @@ const Header = () => {
             </Link>
             <Link href="/books" className="text-lg">
               Books
-            </Link>
-            <Link href="/about" className="text-lg">
-              About
             </Link>
             {session ? (
               <>
@@ -134,9 +131,6 @@ const Header = () => {
             </Link>
             <Link href="/books" onClick={toggleDrawer}>
               Books
-            </Link>
-            <Link href="/about" onClick={toggleDrawer}>
-              About
             </Link>
             {session ? (
               <>

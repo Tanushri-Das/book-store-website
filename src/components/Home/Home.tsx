@@ -1,14 +1,14 @@
 "use client";
 
-import Banner from "./Banner";
-import Faq from "./Faq";
-import Testimonials from "./Testimonials/Testimonials";
 import About from "./About";
+import Banner from "./Banner";
 import Choose from "./Choose";
 import ContactUs from "./ContactUs";
+import Faq from "./Faq";
 import FeaturedBooks from "./FeaturedBooks";
+import Testimonials from "./Testimonials/Testimonials";
 
-const Homepage = () => {
+const Home = () => {
   return (
     <>
       <Banner />
@@ -22,4 +22,4 @@ const Homepage = () => {
   );
 };
 
-export default Homepage;
+export default Home;

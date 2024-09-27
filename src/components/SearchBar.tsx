@@ -22,7 +22,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, onClear }) => {
 
   return (
     <div className="mb-4">
-      <h1 className="text-xl font-semibold mb-4">Search by Bookname :</h1>
+      <h1 className="text-xl font-semibold mb-4">Search by Book Name :</h1>
       <div className="flex items-center">
         <form onSubmit={handleSearch}>
           <div className="relative w-[250px] sm:w-[440px] lg:w-[390px] xl:w-[440px]">

@@ -214,8 +214,10 @@ import useBooks from "@/hooks/useBook";
 import SearchBar from "@/components/SearchBar";
 import { useState } from "react";
 import SearchByPrice from "@/components/SearchByPrice";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const Books = () => {
+  useDynamicTitle();
   const { data: booksData } = useBooks();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("Mystery and Thriller");

@@ -12,8 +12,10 @@ import BookingModal from "@/components/shared/BookingModal";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import useCart from "@/hooks/useCart";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const WishlistPage = () => {
+  useDynamicTitle();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const { data: wishlistData } = useWishlist();

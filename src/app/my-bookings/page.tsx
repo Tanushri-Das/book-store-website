@@ -12,8 +12,10 @@ import UpdateModal from "@/components/shared/UpdateModal";
 import Image from "next/image";
 import { GoPlusCircle } from "react-icons/go";
 import Swal from "sweetalert2";
+import useDynamicTitle from "@/hooks/useDynamicTitle";
 
 const BookingsPage: React.FC = () => {
+  useDynamicTitle();
   const { data: session } = useSession();
   const queryClient = useQueryClient();
   const { data: cartData } = useCart();
